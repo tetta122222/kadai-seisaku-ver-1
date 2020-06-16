@@ -15,15 +15,6 @@ $(function () {
     let contents = '';
     let i = 0;
     hotels.length = 10;
-
-    $("#g").on('click', function(){
-      console.log("gjoa");
-      i += 10;
-      hotels.length += 10; 
-      console.log(i);
-    });
-    
-
     for( i; i<hotels.length; i++){
       let num1  = Math.floor(hotels[i].hotel[0].hotelBasicInfo.reviewAverage);
       let num2  = 5 - num1;
@@ -49,7 +40,13 @@ $(function () {
       /*変数の中身を初期化*/
       contents  = "";
     }
-    console.log(hotels);
+    $("#g").on('click', function(){
+      i += 10;
+      hotels.length += 10; 
+      console.log(i);
+      window.location.reload();
+
+    });
   }); 
 
 });

@@ -4,9 +4,10 @@ $(function () {
   var large_cd = 'japan',
       mid_cd = 'kagoshima',
       small_cd = 'kagoshima';
+  
   // データを引っ張る
   $.ajax({
-    url: 'https://app.rakuten.co.jp/services/api/Travel/SimpleHotelSearch/20170426?format=json&applicationId=1020173082905393111&largeClassCode=' + large_cd + '&middleClassCode=' + mid_cd + '&smallClassCode=' + small_cd,
+    url: 'https://app.rakuten.co.jp/services/api/Travel/SimpleHotelSearch/20170426?format=json&applicationId=1020173082905393111&largeClassCode=' + large_cd + '&middleClassCode=' + mid_cd + '&smallClassCode=' + small_cd + '&hits = 100',
     type: 'post',
     dataType:'jsonp'
   })
@@ -14,17 +15,11 @@ $(function () {
     let hotels = response.hotels;
     let contents = '';
     let i = 0;
-    hotels.length = 10;
-
-    $("#g").on('click', function(){
-      console.log("gjoa");
-      i += 10;
-      hotels.length += 10; 
-      console.log(i);
-    });
-    
-
-    for( i; i<hotels.length; i++){
+    // 表示する番号
+    let hyouzi = 10;
+    // 表示する数
+    hotels.length = 1000;
+    for( i; i<hyouzi; i++){
       let num1  = Math.floor(hotels[i].hotel[0].hotelBasicInfo.reviewAverage);
       let num2  = 5 - num1;
       /*店舗名～住所の表示*/
@@ -49,7 +44,28 @@ $(function () {
       /*変数の中身を初期化*/
       contents  = "";
     }
-    console.log(hotels);
+    i = 0;
+    console.log(i);
+    console.log(hyouzi);
+    
+    $("#g").on('click', function(){
+      i += 10;
+      hyouzi += 10; 
+      $('.hotel_box').remove(contents);
+       for(i; i < hyouzi ; i++){
+         contents +=
+         '<div class="hotel_box"><img src="' + hotels[i].hotel[0].hotelBasicInfo. hotelImageUrl + '">'+
+         '<ul><li>' + hotels[i].hotel[0].hotelBasicInfo.hotelName + '</li>'+
+         '<li>' + hotels[i].hotel[0].hotelBasicInfo.hotelKanaName + '</li>'+
+         '<li>' + hotels[i].hotel[0].hotelBasicInfo.address2 + '</li>';
+         $('#list').append(contents);
+         contents  = "";
+       }
+       i = i - 10;
+       console.log(i);
+    });
+    
+ 
   }); 
 
 });
